@@ -1,5 +1,6 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -18,6 +19,7 @@ public class BookingHomePage extends BasePage {
 
     String languageLinkXpath = "//div[@class='bui-group bui-group--large']/div[2]//div[contains(text(),'$')]/../..";
 
+
     @FindBy(css = "#ss")
     WebElement destination;
 
@@ -30,14 +32,34 @@ public class BookingHomePage extends BasePage {
     @FindBy(css = ".xp__input-group.xp__guests")
     WebElement numbOfGuests;
 
-    @FindBy(css = ".bui-button.bui-button--secondary.bui-stepper__add-button ")
+    @FindBy(xpath = "//div[@class='bui-stepper__wrapper sb-group__stepper-a11y']/button[contains(@aria-label, 'Odrasli: povećajte broj')] ")
     WebElement increaseByOneAdults;
 
-    @FindBy(css = ".bui-button.bui-button--secondary.bui-stepper__subtract-button ")
+    @FindBy(xpath = "//div[@class='bui-stepper__wrapper sb-group__stepper-a11y']/button[contains(@aria-label, 'Odrasli: smanjite broj')]")
     WebElement decreaseByOneAdults;
 
-    @FindBy(css = ".bui-button.bui-button--secondary.bui-stepper__add-button ")
+    @FindBy(xpath = "//div[@class='bui-stepper__wrapper sb-group__stepper-a11y']/button[contains(@aria-label, 'Deca: povećajte broj')]")
     WebElement increaseByOneKids;
+
+    @FindBy(xpath = "//div[@class='bui-stepper__wrapper sb-group__stepper-a11y']/button[contains(@aria-label, 'Deca: smanjite broj')]")
+    WebElement decreaseByOneKids;
+
+    @FindBy(css = ".sb-group-field-has-error")
+    WebElement ageOfKids;
+
+    @FindBy(xpath = "//div[@class='bui-stepper__wrapper sb-group__stepper-a11y']/button[contains(@aria-label, 'Jedinice: povećajte broj')]")
+    WebElement rooms;
+
+    public void selectLanguage(String language){
+        click(languageButton);
+        click(driver.findElement(By.xpath(languageLinkXpath.replace("$",language))));
+    }
+    public void enterDestination(String destinationText){
+        typeText(destination,destinationText);
+    }
+
+
+
 
 
 
