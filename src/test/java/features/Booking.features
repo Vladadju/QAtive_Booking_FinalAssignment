@@ -1,0 +1,6 @@
+Feature: Test
+  Scenario: Choosing destination and all other reference
+    Given I am on booking home page
+    When I change language to "Srpski"
+    And I add destination "Kopaonik"
+    And I add start and end date "31 decembar 2021" "30 januar 2022"
