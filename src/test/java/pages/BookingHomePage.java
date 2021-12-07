@@ -5,6 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.util.List;
@@ -36,31 +37,36 @@ public class BookingHomePage extends BasePage {
     WebElement decreaseByOneAdults;
     @FindBy(xpath = "//div[@class='bui-stepper__wrapper sb-group__stepper-a11y']/button[contains(@aria-label, 'Deca: povećajte broj')]")
     WebElement increaseByOneKids;
+    @FindBy(css = ".sb-group-field-has-error")
+    WebElement kidConfirmMessage;
     @FindBy(xpath = "//div[@class='bui-stepper__wrapper sb-group__stepper-a11y']/button[contains(@aria-label, 'Deca: smanjite broj')]")
     WebElement decreaseByOneKids;
     @FindBy(css = ".sb-group-field-has-error")
     WebElement ageOfKids;
     @FindBy(xpath = "//div[@class='bui-stepper__wrapper sb-group__stepper-a11y']/button[contains(@aria-label, 'Jedinice: povećajte broj')]")
     WebElement rooms;
+    @FindBy(css = ".sb-searchbox__button ")
+    WebElement buttonSearch;
+    //@FindBy(css = ".sb-searchbox__button ")
 
+    public void clickOnLanguageIcon(){
+        languageButton.click();
+    }
     public void selectLanguage(String language) {
-        click(languageButton);
-        click(driver.findElement(By.xpath(languageLinkXpath.replace("$", language))));
+        driver.findElement(By.xpath(languageLinkXpath.replace("$", language))).click();
     }
-
     public void enterDestination(String destinationText) {
-        typeText(destination, destinationText);
+        destination.sendKeys(destinationText);
     }
-
     public void selectDates(String startDate, String endDate) {
-        click(dates);
+        dates.click();
         while (true) {
             List<WebElement> startDataList = driver.findElements(By.xpath("//span[@aria-label='" + startDate + "']"));
 
             if (startDataList.size() == 0) {
-                click(next);
+                next.click();
             } else {
-                click(driver.findElement(By.xpath("//span[@aria-label='" + startDate + "']")));
+                driver.findElement(By.xpath("//span[@aria-label='" + startDate + "']")).click();
                 break;
 
             }
@@ -69,14 +75,50 @@ public class BookingHomePage extends BasePage {
             List<WebElement> endDateList = driver.findElements(By.xpath("//span[@aria-label='" + endDate + "']"));
 
             if (endDateList.size() == 0) {
-                click(next);
+                next.click();
             } else {
-                click(driver.findElement(By.xpath("//span[@aria-label='" + endDate + "']")));
+                driver.findElement(By.xpath("//span[@aria-label='" + endDate + "']")).click();
                 break;
             }
         }
 
     }
+    public void clickGuests(){
+        numbOfGuests.click();
+    }
+    public void decreaseNumAdults(){
+        decreaseByOneAdults.click();
+    }
+    public void increaseKids(){
+        increaseByOneKids.click();
+    }
+    public void verifyMessage(String messageText){
+        assertEquals(kidConfirmMessage, messageText);
+    }
+    public void selectAgeOfKids(String value){
+        Select selectAge = new Select(driver.findElement(By.cssSelector(".sb-group-field-has-error")));
+        selectAge.selectByValue(value);
+    }
+    public void clickSearch(){
+        buttonSearch.click();
+    }
+    public void fillUpAccommodationForm
+            (String language, String destinationText,String startDate, String endDate, String value){
+        clickOnLanguageIcon();
+        selectLanguage(language);
+        enterDestination(destinationText);
+        selectDates(startDate, endDate);
+        clickGuests();
+        decreaseNumAdults();
+        increaseKids();
+        selectAgeOfKids(value);
+        clickSearch();
+
+    }
+
+
+
+
 
 
 

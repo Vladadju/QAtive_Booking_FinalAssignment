@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.Reporter;
 
 import java.io.File;
@@ -69,5 +70,8 @@ public class BasePage {
         File file = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
         FileUtils.copyFile(file, new File("src/screenshot/"+fileName+"_"+System.currentTimeMillis()+".png"));
 
+    }
+    public void assertEquals(WebElement element, String expectedValue){
+        Assert.assertEquals(element.getText(),expectedValue);
     }
 }

@@ -5,4 +5,10 @@
     <parameter name="BROWSER" value="Chrome"/>
     <parameter name="BROWSER_VERSION" value="95"/>
     <parameter name="WAIT_TIME" value="30"/>
+
+    <test name="Booking accomodation">
+        <classes>
+            <class name="runners.GeneralRunner"/>
+        </classes>
+    </test>
 </suite>
