@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 import pages.BookingHomePage;
 
+import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
 public class BookingTest {
@@ -28,27 +29,27 @@ public class BookingTest {
 
     @AfterMethod
     public void tearDown() {
-          //driver.quit();
+        driver.quit();
     }
 
     // Positive test
     @Test
-        public void bookingDestination() {
+    public void bookingDestination() throws IOException {
         BookingHomePage bookingHomePage = new BookingHomePage(driver, wait);
         bookingHomePage.fillUpAccommodationForm("Srpski", "Kopaonik", "31 decembar 2021", "15 januar 2022", "3");
-        Assert.assertEquals(driver.findElement(By.cssSelector(".sb-searchbox__row.u-clearfix.-title")).getText(),"Traži");
+        Assert.assertEquals(driver.findElement(By.cssSelector(".sb-searchbox__row.u-clearfix.-title")).getText(), "Traži");
+        bookingHomePage.takeScreenshot("bookingDestination");
     }
 
     // Negative test
     @Test
 
-    public void bookingNegativeDestination(){
-        BookingHomePage bookingHomePage = new BookingHomePage(driver,wait);
+    public void bookingNegativeDestination() throws IOException {
+        BookingHomePage bookingHomePage = new BookingHomePage(driver, wait);
         bookingHomePage.fillUpAccommodationForm("Srpski", "", "31 decembar 2021", "15 januar 2022", "3");
-        Assert.assertEquals(driver.findElement(By.cssSelector("#destination__error")).getText(),"Greška:\nUnesite destinaciju da biste počeli pretragu.");
-
+        Assert.assertEquals(driver.findElement(By.cssSelector("#destination__error")).getText(), "Greška:\nUnesite destinaciju da biste počeli pretragu.");
+        bookingHomePage.takeScreenshot("NegativeDestination");
     }
-
 
 
 }
