@@ -8,7 +8,7 @@
 
     <test name="Booking accomodation">
         <classes>
-            <class name="runners.GeneralRunner"/>
+            <class name="tests.BookingTest"/>
         </classes>
     </test>
 </suite>
