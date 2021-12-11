@@ -1,10 +1,15 @@
 package pages;
 
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import java.util.List;
 
 public class FlightsPage extends BasePage {
     public FlightsPage(WebDriver driver, WebDriverWait wait) {
@@ -22,21 +27,67 @@ public class FlightsPage extends BasePage {
     WebElement airportTo;
     @FindBy(css = "#vL5s-dateRangeInput-display-start")
     WebElement dayOfDeparture;
+    @FindBy(xpath = "//div[@aria-label='Departure date input']")
+    WebElement nextButton;
     @FindBy(css = "vL5s-dateRangeInput-display-end-inner")
     WebElement dayOfReturn;
     @FindBy(css = "iV8D-switch-display-status")
     WebElement RoundTrip;
     @FindBy(xpath = "//div[@class='keel-grid v-c-p ']")
     WebElement ageOfPassenger;
-    @FindBy(xpath = "//div[@class='col-cabin _iXn']")
+    @FindBy(xpath = "//ul[@id='dSTr-cabinType-widget-list']")
     WebElement travellingClass;
+
     @FindBy(css = "#vL5s-submit")
     WebElement searchButton;
+    String travellClass = "//div[@id='dSTr-cabinType-widget-list-wrapper']/ul[1]/li[$]";
+    String date = "//div[@aria-label='$']";
 
+    public void clickFlightButton() {
+        flightButton.click();
+    }
 
+    public void enterAirportFrom(String airportFromText) {
+        airportFrom.sendKeys(airportFromText);
+    }
 
+    public void enterAirportTo(String airpotToText) {
+        airportTo.sendKeys(airpotToText);
+    }
 
+    public void selectDatesOfDeparture(String startDate, String endDate) {
+        dayOfReturn.click();
+        while (true) {
+            List<WebElement> startDataList = driver.findElements(By.xpath("//div[@aria-label='" + startDate + "']"));
 
+            if (startDataList.size() == 0) {
+                nextButton.click();
+            } else {
+                driver.findElement(By.xpath("//div[@aria-label='" + startDate + "']")).click();
+                break;
+
+            }
+        }
+        while (true) {
+            List<WebElement> endDateList = driver.findElements(By.xpath("//div[@aria-label='" + endDate + "']"));
+
+            if (endDateList.size() == 0) {
+                nextButton.click();
+            } else {
+                driver.findElement(By.xpath("//div[@aria-label='" + endDate + "']")).click();
+                break;
+            }
+        }
+
+    }
+    public void selectDates(String startDate, String endDate){
+        Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(By.xpath("//div[@aria-label='Departure date input']"))).click().moveToElement(driver.findElement(By.xpath(date.replace("$",startDate)))).click()
+                .moveToElement(driver.findElement(By.xpath(date.replace("$",endDate)))).click().build().perform();
+    }
+    public void clickSearchButton(){
+        searchButton.click();
+    }
 
 
 
