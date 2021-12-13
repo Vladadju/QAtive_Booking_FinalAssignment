@@ -3,6 +3,7 @@ package pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,12 +18,12 @@ public class CarRentalsPage extends BasePage{
         PageFactory.initElements(driver,this);
     }
 
-    @FindBy(xpath = "//span[contains(text(),'Car rentals')]")
+    @FindBy(xpath = "//span[contains(text(),'Iznajmljivanje automobila')]")
     WebElement carRentalsButton;
     @FindBy(xpath = "//button[@data-modal-id='language-selection']")
     WebElement languageButton;
     String languageLinkXpath = "//div[@class='bui-group bui-group--large']/div[2]//div[contains(text(),'$')]/../..";
-    @FindBy(css = "#return-location-different")
+    @FindBy(xpath = "//div[@class='bui-group bui-group--inline xp__top-form-switcher']/div[2]/label[@class='bui-radio__label']")
     WebElement returnToDifferentLocation;
     @FindBy(css = "#ss_origin")
     WebElement startLocation;
@@ -57,29 +58,16 @@ public class CarRentalsPage extends BasePage{
     public void enterEndLocation(String finishLocationText){
         endLocation.sendKeys(finishLocationText);
     }
-    public void selectDates(String startDate, String endDate) {
+    public void selectDates(String startDate, String endDate) throws InterruptedException {
         date.click();
-        while (true) {
-            List<WebElement> startDataList = driver.findElements(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'" + startDate + "']"));
-////td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'3')]
-            if (startDataList.size() == 0) {
-                next.click();
-            } else {
-                driver.findElement(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),''" + startDate + "']")).click();
-                break;
+        Thread.sleep(5000);
+        Actions actions = new Actions(driver);
+        actions.moveToElement(driver.findElement(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'"+startDate+"']"))).click().build().perform();
+        //driver.findElement(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'"+startDate+"']")).click();
+        driver.findElement(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'"+endDate+"']")).click();
 
-            }
-        }
-        while (true) {
-            List<WebElement> endDateList = driver.findElements(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'" + endDate + "']"));
 
-            if (endDateList.size() == 0) {
-                next.click();
-            } else {
-                driver.findElement(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'" + endDate + "']")).click();
-                break;
-            }
-        }
+
 
     }
     public void setCheckAgeOfDriver(){
@@ -87,6 +75,27 @@ public class CarRentalsPage extends BasePage{
     }
     public void enterAgeOfDriver(String ageOfDriverText){
         driverAgeInput.sendKeys(ageOfDriverText);
+    }
+    public void clickOnSearchButton(){
+        searchButton.click();
+    }
+
+    public void fillCarRentalFormFull
+            (String language, String startLocationText, String finishLocationText, String startDate, String endDate, String ageOfDriverText) throws InterruptedException {
+        clickCarRentalIcon();
+        clickOnLanguageIcon();
+        selectLanguage(language);
+        checkDifferentLocation();
+        enterStartLocation(startLocationText);
+        enterEndLocation(finishLocationText);
+        selectDates(startDate, endDate);
+        setCheckAgeOfDriver();
+        enterAgeOfDriver(ageOfDriverText);
+        clickOnSearchButton();
+
+
+
+
     }
 
 

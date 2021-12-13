@@ -1,12 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 
-<suite name="Booking" data-provider-thread-count="1">
+<suite name="Booking" data-provider-thread-count="2" parallel="tests">
     <parameter name="BROWSER" value="Chrome"/>
-    <parameter name="BROWSER_VERSION" value="95"/>
+    <parameter name="BROWSER_VERSION" value="96"/>
     <parameter name="WAIT_TIME" value="30"/>
 
-    <test name="Booking accomodation">
+    <test name="bookingDestination2">
+        <parameter name="browser" value="Chrome"/>
+        <classes>
+            <class name="tests.BookingTest"/>
+        </classes>
+    </test>
+    <test name="bookingDestination">
+        <parameter name="browser" value="Firefox"/>
         <classes>
             <class name="tests.BookingTest"/>
         </classes>

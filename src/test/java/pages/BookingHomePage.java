@@ -7,10 +7,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
 
 import java.util.List;
 
 public class BookingHomePage extends BasePage {
+    String WAIT = Reporter.getCurrentTestResult().getTestContext().getCurrentXmlTest().getParameter("WAIT_TIME");
     public BookingHomePage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
         this.driver = driver;

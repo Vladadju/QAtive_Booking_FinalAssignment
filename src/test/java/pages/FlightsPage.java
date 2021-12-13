@@ -8,10 +8,12 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
 
 import java.util.List;
 
 public class FlightsPage extends BasePage {
+    String WAIT = Reporter.getCurrentTestResult().getTestContext().getCurrentXmlTest().getParameter("WAIT_TIME");
     public FlightsPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
         this.driver = driver;
@@ -25,9 +27,9 @@ public class FlightsPage extends BasePage {
     WebElement airportFrom;
     @FindBy(css = "#vL5s-destination-airport-display")
     WebElement airportTo;
-    @FindBy(css = "#vL5s-dateRangeInput-display-start")
+    @FindBy(css = "#CJaQ-dateRangeInput-display-start-inner")
     WebElement dayOfDeparture;
-    @FindBy(xpath = "//div[@aria-label='Departure date input']")
+    @FindBy(css = "#stl-jam-cal-nextMonth")
     WebElement nextButton;
     @FindBy(css = "vL5s-dateRangeInput-display-end-inner")
     WebElement dayOfReturn;
@@ -80,11 +82,34 @@ public class FlightsPage extends BasePage {
         }
 
     }
-    public void selectDates(String startDate, String endDate){
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath("//div[@aria-label='Departure date input']"))).click().moveToElement(driver.findElement(By.xpath(date.replace("$",startDate)))).click()
-                .moveToElement(driver.findElement(By.xpath(date.replace("$",endDate)))).click().build().perform();
-    }
+    public void selectDates(String startDate, String endDate) {
+       dayOfDeparture.click();
+        while (true) {
+            List<WebElement> startDataList = driver.findElements(By.xpath("//div[@aria-label='"+startDate+"']"));
+
+            if (startDataList.size() == 0) {
+                nextButton.click();
+            } else {
+                driver.findElement(By.xpath("//div[@aria-label='" + startDate + "']")).click();
+                break;
+
+            }
+        }
+        while (true) {
+            List<WebElement> endDateList = driver.findElements(By.xpath("//div[@aria-label='" + endDate + "']"));
+
+            if (endDateList.size() == 0) {
+                nextButton.click();
+            } else {
+                driver.findElement(By.xpath("//div[@aria-label='" + endDate + "']")).click();
+                break;
+            }
+        }
+
+
+
+}
+
     public void clickSearchButton(){
         searchButton.click();
     }
