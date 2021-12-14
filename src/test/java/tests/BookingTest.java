@@ -53,7 +53,7 @@ public class BookingTest {
         bookingHomePage.takeScreenshot("bookingDestination");
     }
 
-    // Negative test
+    // Negative test , empty destination field
     @Test
 
     public void bookingNegativeDestination() throws IOException {
@@ -62,6 +62,8 @@ public class BookingTest {
         Assert.assertEquals(driver.findElement(By.cssSelector("#destination__error")).getText(), "Greška:\nUnesite destinaciju da biste počeli pretragu.");
         bookingHomePage.takeScreenshot("NegativeDestination");
     }
+
+
 
 
 }

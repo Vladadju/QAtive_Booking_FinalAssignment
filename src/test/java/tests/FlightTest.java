@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Assert;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -14,7 +15,7 @@ import java.util.concurrent.TimeUnit;
 public class FlightTest {
     WebDriver driver;
     WebDriverWait wait;
-    String URL = "https://www.booking.com/";
+    String URL = "https://booking.kayak.com/";
 
     @BeforeMethod
     public void setUp() {
@@ -27,22 +28,21 @@ public class FlightTest {
 
     @AfterMethod
     public void tearDown() {
-       // driver.quit();
+        //driver.quit();
     }
 
     @Test
-    public void bookingFlight() {
+    public void bookingFlight() throws InterruptedException {
 
         FlightsPage flightsPage = new FlightsPage(driver, wait);
-        flightsPage.clickFlightButton();
-        //flightsPage.selectClass("b");
-        //driver.switchTo().window("https://booking.kayak.com/?sid=3d85a51ec0dc0fdbd69d1a1c26aac376&aid=304142&label=gen173nr-1FCAEoggI46AdIM1gEaMEBiAEBmAExuAEXyAEM2AEB6AEB-AECiAIBqAIDuAK0v9eNBsACAdICJDhmMDAxNjY4LWZlNjItNDc3Yy05NzFlLTE2NDQwZGIwNzI3MNgCBeACAQ");
-        driver.findElement(By.xpath("//body[@id='oyQe']/div[1]/div[1]/main[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/section[2]//div[1]/div[1]/div[@class='js-searchForm']/form[1]/div[1]/div[1]/div[1]/div[1]/div[4]//div[1]")).click();
-
-        //driver.findElement(By.cssSelector(".Flights-Search-FlightCabinSelect")).click();
-       // driver.findElement(By.xpath("//div[@aria-label='Departure date input']")).click();
-        //flightsPage.selectDates("16 January", "22 January 31");
-        //driver.findElement(By.xpath("//div[@aria-label='Departure date input']")).click();
-        //("16 January", "22 February");
+        flightsPage.enterAirportFrom("Rome");
+        flightsPage.enterAirportTo("Paris");
+        // month dd
+        flightsPage.selectDatesOfDepartureAndReturn("January 10", "January 17");
+        flightsPage.selectClass();
+        flightsPage.selectPassengers();
+        flightsPage.clickSearchButton();
+        Assert.assertEquals(driver.findElement(By.xpath("//div[contains(@id, 'stops-title')]"))
+                .getText(),"Stops");
     }
 }

@@ -13,7 +13,6 @@ import org.testng.Reporter;
 import java.util.List;
 
 public class FlightsPage extends BasePage {
-    String WAIT = Reporter.getCurrentTestResult().getTestContext().getCurrentXmlTest().getParameter("WAIT_TIME");
     public FlightsPage(WebDriver driver, WebDriverWait wait) {
         super(driver, wait);
         this.driver = driver;
@@ -23,67 +22,64 @@ public class FlightsPage extends BasePage {
 
     @FindBy(xpath = "//header[@class='bui-header bui-header--logo-large bui-u-hidden-print bui-header--rounded-tabs']/nav[2]/ul[1]/li[2]")
     WebElement flightButton;
-    @FindBy(css = "#vL5s-origin-airport-display-inner")
+    ////div[contains(@id,'origin-airport-display-inner')]
+    @FindBy(xpath = "//input[contains(@id,'origin-airport')]")
+    List<WebElement> airportInputFrom;
+    @FindBy(xpath = "//div[contains(@id,'origin-airport-display-inner')]")
     WebElement airportFrom;
-    @FindBy(css = "#vL5s-destination-airport-display")
+    @FindBy(xpath = "//div[contains(@id,'destination-airport-display-inner')]")
     WebElement airportTo;
+    @FindBy(xpath = "//input[contains(@id,'destination-airport')]")
+    List<WebElement> airportToInputForm;
+    @FindBy(xpath = "//label[contains(@class, 'nearby-select-all-checkbox')]")
+    List<WebElement> checkNearbyAirports;
     @FindBy(css = "#CJaQ-dateRangeInput-display-start-inner")
     WebElement dayOfDeparture;
-    @FindBy(css = "#stl-jam-cal-nextMonth")
+    @FindBy(xpath = "//div[contains(@id,'nextMonth')]")
     WebElement nextButton;
-    @FindBy(css = "vL5s-dateRangeInput-display-end-inner")
-    WebElement dayOfReturn;
+    @FindBy(xpath = "//div[contains(@id,'dateRangeInput-display-start-inner')]")
+    WebElement clickDateField;
+    @FindBy(xpath = "//div[contains(@id,'dateRangeInput-start')]")
+    List<WebElement> dateFieldFill;
     @FindBy(css = "iV8D-switch-display-status")
     WebElement RoundTrip;
     @FindBy(xpath = "//div[@class='keel-grid v-c-p ']")
-    WebElement ageOfPassenger;
-    @FindBy(xpath = "//ul[@id='dSTr-cabinType-widget-list']")
-    WebElement travellingClass;
+    WebElement clickAgeOfPassenger;
+    @FindBy(xpath = "//div[contains(@id, 'travelersAboveForm-youth')]/div[1]/div[3]/button")
+    WebElement selectYouthByOne;
+    @FindBy(xpath = "//div[contains(@id,'cabinType-widget-display-status')]")
+    WebElement clickTravelClass;
+    @FindBy(xpath = "//div[contains(@id,'cabinType-widget-list-wrapper')]/ul[1]/li[4]")
+    WebElement travellingClassInput;
+    @FindBy(xpath = "//div[contains(@class,'keel-container s-t-bp')]")
+    WebElement clickEmptySpace;
 
-    @FindBy(css = "#vL5s-submit")
+    @FindBy(xpath = "//div[contains(@id, 'col-button-wrapper')]")
     WebElement searchButton;
-    String travellClass = "//div[@id='dSTr-cabinType-widget-list-wrapper']/ul[1]/li[$]";
+    String travelClass = "//div[contains(@id,'cabinType-widget-list-wrapper')]/ul[1]/li[$]";
+
     String date = "//div[@aria-label='$']";
 
     public void clickFlightButton() {
         flightButton.click();
     }
 
-    public void enterAirportFrom(String airportFromText) {
-        airportFrom.sendKeys(airportFromText);
+    public void enterAirportFrom(String airportFromText) throws InterruptedException {
+        airportFrom.click();
+        Thread.sleep(500);
+        airportInputFrom.get(0).sendKeys(airportFromText);
+        clickEmptySpace.click();
     }
-
-    public void enterAirportTo(String airpotToText) {
-        airportTo.sendKeys(airpotToText);
+    public void enterAirportTo(String airportToText) throws InterruptedException {
+        airportTo.click();
+        Thread.sleep(500);
+        airportToInputForm.get(0).sendKeys(airportToText);
+        //checkNearbyAirports.get(1).click();
+        clickEmptySpace.click();
     }
-
-    public void selectDatesOfDeparture(String startDate, String endDate) {
-        dayOfReturn.click();
-        while (true) {
-            List<WebElement> startDataList = driver.findElements(By.xpath("//div[@aria-label='" + startDate + "']"));
-
-            if (startDataList.size() == 0) {
-                nextButton.click();
-            } else {
-                driver.findElement(By.xpath("//div[@aria-label='" + startDate + "']")).click();
-                break;
-
-            }
-        }
-        while (true) {
-            List<WebElement> endDateList = driver.findElements(By.xpath("//div[@aria-label='" + endDate + "']"));
-
-            if (endDateList.size() == 0) {
-                nextButton.click();
-            } else {
-                driver.findElement(By.xpath("//div[@aria-label='" + endDate + "']")).click();
-                break;
-            }
-        }
-
-    }
-    public void selectDates(String startDate, String endDate) {
-       dayOfDeparture.click();
+    public void selectDatesOfDepartureAndReturn(String startDate, String endDate) {
+        clickDateField.click();
+        dateFieldFill.get(1).click();
         while (true) {
             List<WebElement> startDataList = driver.findElements(By.xpath("//div[@aria-label='"+startDate+"']"));
 
@@ -101,14 +97,24 @@ public class FlightsPage extends BasePage {
             if (endDateList.size() == 0) {
                 nextButton.click();
             } else {
-                driver.findElement(By.xpath("//div[@aria-label='" + endDate + "']")).click();
+                driver.findElement(By.xpath("//div[@aria-label='"+endDate+"']")).click();
                 break;
             }
         }
+        clickEmptySpace.click();
 
+    }
+    public void selectClass(){
+        clickTravelClass.click();
+        travellingClassInput.click();
 
+    }
+    public void selectPassengers() throws InterruptedException {
+        clickAgeOfPassenger.click();
+        selectYouthByOne.click();
 
-}
+        clickEmptySpace.click();
+    }
 
     public void clickSearchButton(){
         searchButton.click();
