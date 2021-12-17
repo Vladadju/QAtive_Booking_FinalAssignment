@@ -32,14 +32,17 @@ public class CarRentalTest {
     @Test
     public void rentingCar() throws InterruptedException {
         CarRentalsPage carRentalsPage = new CarRentalsPage(driver,wait);
-        //carRentalsPage.fillCarRentalFormFull("Srpski","Beograd","Novi Sad","10", "17","29");
+        carRentalsPage.clickOnLanguageIcon();
+        carRentalsPage.selectLanguage("Srpski");
         carRentalsPage.clickCarRentalIcon();
         carRentalsPage.clickOnLanguageIcon();
         carRentalsPage.selectLanguage("Srpski");
         carRentalsPage.checkDifferentLocation();
         carRentalsPage.enterStartLocation("Beograd");
         carRentalsPage.enterEndLocation("Novi Sad");
-        carRentalsPage.selectDates("10", "17");
+        carRentalsPage.selectDates("1","4");
+        carRentalsPage.clickOnSearchButton();
+
 
     }
 }

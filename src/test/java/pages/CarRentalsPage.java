@@ -39,7 +39,12 @@ public class CarRentalsPage extends BasePage{
     WebElement driverAgeInput;
     @FindBy(xpath = "//div[@class='c2-wrapper c2-wrapper-s-position-undefined c2-wrapper-s-checkin c2-wrapper-s-has-arrow']/div[2]/div[2]/div[2]")
     WebElement next;
+    @FindBy(xpath = "//span[contains(text(),'Iznajmljivanje automobila za bilo koju vrstu putovanja')]")
+    WebElement clickEmptySpace;
+    @FindBy(xpath = "//h2[contains(text(),'Popularne kompanije za iznajmljivanje automobila')]")
+    WebElement clickEmptySpaceBelow;
 
+    // //h2[contains(text(),'Popularne kompanije za iznajmljivanje automobila')]
     public void clickCarRentalIcon(){
         carRentalsButton.click();
     }
@@ -54,22 +59,42 @@ public class CarRentalsPage extends BasePage{
     }
     public void enterStartLocation(String startLocationText){
         startLocation.sendKeys(startLocationText);
+        clickEmptySpace.click();
     }
     public void enterEndLocation(String finishLocationText){
         endLocation.sendKeys(finishLocationText);
+        clickEmptySpace.click();
     }
-    public void selectDates(String startDate, String endDate) throws InterruptedException {
+    public void selectDates(String startDate, String endDate) {
         date.click();
-        Thread.sleep(5000);
-        Actions actions = new Actions(driver);
-        actions.moveToElement(driver.findElement(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'"+startDate+"']"))).click().build().perform();
-        //driver.findElement(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'"+startDate+"']")).click();
-        driver.findElement(By.xpath("//td[@class='c2-day c2-day-s-in-range']/span[contains(text(),'"+endDate+"']")).click();
+        while (true) {
+            List<WebElement> startDataList = driver.findElements(By.xpath("//div[@data-id='M1640995200000']/table/tbody/tr[5]/td["+startDate+"]"));
 
+            if (startDataList.size() == 0) {
+                next.click();
+            } else {
+                driver.findElement(By.xpath("//div[@data-id='M1640995200000']/table/tbody/tr[5]/td[" + startDate + "]")).click();
+                break;
 
+            }
+        }
+        while (true) {
+            List<WebElement> endDateList = driver.findElements(By.xpath("//div[@data-id='M1640995200000']/table/tbody/tr[5]/td[" + endDate + "]"));
 
+            if (endDateList.size() == 0) {
+                next.click();
+            } else {
+                driver.findElement(By.xpath("//div[@data-id='M1640995200000']/table/tbody/tr[5]/td["+endDate+"]")).click();
+                break;
+            }
+        }
+       // clickEmptySpaceBelow.click();
 
     }
+
+
+
+
     public void setCheckAgeOfDriver(){
         checkAgeOfDriver.click();
     }
@@ -88,7 +113,7 @@ public class CarRentalsPage extends BasePage{
         checkDifferentLocation();
         enterStartLocation(startLocationText);
         enterEndLocation(finishLocationText);
-        selectDates(startDate, endDate);
+
         setCheckAgeOfDriver();
         enterAgeOfDriver(ageOfDriverText);
         clickOnSearchButton();

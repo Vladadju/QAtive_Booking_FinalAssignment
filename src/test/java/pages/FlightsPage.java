@@ -31,8 +31,12 @@ public class FlightsPage extends BasePage {
     WebElement airportTo;
     @FindBy(xpath = "//input[contains(@id,'destination-airport')]")
     List<WebElement> airportToInputForm;
-    @FindBy(xpath = "//label[contains(@class, 'nearby-select-all-checkbox')]")
-    List<WebElement> checkNearbyAirports;
+    @FindBy(xpath = "//ul[contains(@id, 'destination-airport-nearbyOptions')]")
+    WebElement checkNearbyAirports;
+    @FindBy(xpath = "//ul[contains(@id, 'origin-airport-nearbyOptions')]")
+    WebElement checkOriginNearbyAirports;
+    @FindBy(xpath = "//div[contains(@class, 'destination-images')]")
+    WebElement destinationAirportImage;
     @FindBy(css = "#CJaQ-dateRangeInput-display-start-inner")
     WebElement dayOfDeparture;
     @FindBy(xpath = "//div[contains(@id,'nextMonth')]")
@@ -50,7 +54,13 @@ public class FlightsPage extends BasePage {
     @FindBy(xpath = "//div[contains(@id,'cabinType-widget-display-status')]")
     WebElement clickTravelClass;
     @FindBy(xpath = "//div[contains(@id,'cabinType-widget-list-wrapper')]/ul[1]/li[4]")
-    WebElement travellingClassInput;
+    WebElement firstClassInput;
+    @FindBy(xpath = "//div[contains(@id,'cabinType-widget-list-wrapper')]/ul[1]/li[3]")
+    WebElement businessClassInput;
+    @FindBy(xpath = "//div[contains(@id,'cabinType-widget-list-wrapper')]/ul[1]/li[2]")
+    WebElement premiumClassInput;
+    @FindBy(xpath = "//div[contains(@id,'cabinType-widget-list-wrapper')]/ul[1]/li[1]")
+    WebElement economyClassInput;
     @FindBy(xpath = "//div[contains(@class,'keel-container s-t-bp')]")
     WebElement clickEmptySpace;
 
@@ -68,13 +78,17 @@ public class FlightsPage extends BasePage {
         airportFrom.click();
         Thread.sleep(500);
         airportInputFrom.get(0).sendKeys(airportFromText);
+        Thread.sleep(500);
+        //checkOriginNearbyAirports.click();
+       // destinationAirportImage.click();
         clickEmptySpace.click();
     }
     public void enterAirportTo(String airportToText) throws InterruptedException {
         airportTo.click();
         Thread.sleep(500);
         airportToInputForm.get(0).sendKeys(airportToText);
-        //checkNearbyAirports.get(1).click();
+        Thread.sleep(500);
+       // checkNearbyAirports.click();
         clickEmptySpace.click();
     }
     public void selectDatesOfDepartureAndReturn(String startDate, String endDate) {
@@ -104,9 +118,24 @@ public class FlightsPage extends BasePage {
         clickEmptySpace.click();
 
     }
-    public void selectClass(){
+    public void selectFirstClass(){
         clickTravelClass.click();
-        travellingClassInput.click();
+        firstClassInput.click();
+
+    }
+    public void selectBusinessClass(){
+        clickTravelClass.click();
+        businessClassInput.click();
+
+    }
+    public void selectPremiumClass(){
+        clickTravelClass.click();
+        premiumClassInput.click();
+
+    }
+    public void selectEconomyClass(){
+        clickTravelClass.click();
+        economyClassInput.click();
 
     }
     public void selectPassengers() throws InterruptedException {
@@ -115,9 +144,23 @@ public class FlightsPage extends BasePage {
 
         clickEmptySpace.click();
     }
-
     public void clickSearchButton(){
         searchButton.click();
+    }
+
+    public void fillFlightForm(String airportFromText, String airportToText,String startDate, String endDate) throws InterruptedException {
+        clickFlightButton();
+        driver.navigate().to("https://booking.kayak.com/");
+        Thread.sleep(1000);
+        enterAirportFrom(airportFromText);
+        enterAirportTo(airportToText);
+        selectDatesOfDepartureAndReturn(startDate, endDate);
+        selectBusinessClass();
+        selectPassengers();
+        clickSearchButton();
+
+
+
     }
 
 
