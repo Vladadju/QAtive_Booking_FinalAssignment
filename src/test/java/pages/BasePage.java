@@ -14,7 +14,7 @@ import java.io.File;
 import java.io.IOException;
 
 public class BasePage {
-    public WebDriver driver;
+    WebDriver driver;
     WebDriverWait wait;
     String WAIT = Reporter.getCurrentTestResult().getTestContext().getCurrentXmlTest().getParameter("WAIT_TIME");
 

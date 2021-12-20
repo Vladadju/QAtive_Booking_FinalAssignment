@@ -16,8 +16,8 @@
     <test name="bookingDestination">
         <parameter name="browser" value="Firefox"/>
         <classes>
-            <class name="tests.FlightTest"/>
-            <class name="tests.BookingTest"/>
+           <class name="tests.FlightTest"/>
+
         </classes>
     </test>
 </suite>
