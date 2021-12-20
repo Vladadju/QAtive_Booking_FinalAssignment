@@ -5,8 +5,8 @@ Feature: Test1
     When I change language to "<language>"
     And I add destination "<destination>"
     And I add start and end date "<startDate>" "<endDate>"
-    And I will increase num of kids by one
-    And I will select age of child
+    And I will increase num of kids by one and I will select age
+    And I will will click on search button
     Then I will see results of my choosen destination
 
     Examples:

@@ -7,36 +7,29 @@ import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import pages.FlightsPage;
 import tests.BaseTest;
-
 import java.io.IOException;
-import java.util.concurrent.TimeUnit;
-
 public class FlightSteps extends BaseTest {
-    WebDriver driver;
-    WebDriverWait wait;
+
+    String URL = "https://www.booking.com/";
 
     @Before
     public void setUpCucumber() throws Exception {
-        System.setProperty("webdriver.chrome.driver","src/main/resources/chromedriver96.exe");
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        setUp("Chrome","96",30);
+
+        setUp("Chrome", "96", 30);
 
 
 
     }
     @After
     public void tearDown(){
-        quitDriver();
+        //driver.quit();
     }
     @Given("I am on a booking home page")
     public void iAmOnABookingHomePage() {
-        driver.get("https://www.booking.com/");
+        driver.get(URL);
     }
 
     @When("I will click on flight button end enter in flight page")
@@ -84,10 +77,13 @@ public class FlightSteps extends BaseTest {
     }
 
     @Then("I will se results of my choices flight tickets")
-    public void iWillSeResultsOfMyChoicesFlightTickets() throws IOException {
+    public void iWillSeResultsOfMyChoicesFlightTickets() throws IOException, InterruptedException {
+        Thread.sleep(6000);
         FlightsPage flightsPage = new FlightsPage(driver, wait);
-        Assert.assertEquals(driver.findElement(By.xpath("//div[contains(@id,'stops-title')]"))
-                .getText(),"Stops");
+//        Assert.assertEquals(driver.findElement(By.xpath("//div[contains(@id,'stops-title')]"))
+//                .getText(),"Stops");
+        Assert.assertEquals(driver.findElement(By.xpath("//div[@class='Base-Results-ResultsListHeader Flights-Results-FlightResultsListHeader']/div/div/a/div/div/div/div/div/span/span"))
+                .getText(),"Cheapest");
         flightsPage.takeScreenshot("Booking Flight positive test");
     }
 }

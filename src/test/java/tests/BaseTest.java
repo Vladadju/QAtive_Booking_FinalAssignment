@@ -19,6 +19,6 @@ public class BaseTest {
     }
 
     public void quitDriver(){
-        driverManager.quitWebrdriver();
+        driverManager.quitWebDriver();
     }
 }

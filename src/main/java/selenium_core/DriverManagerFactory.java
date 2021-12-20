@@ -1,22 +1,18 @@
 package selenium_core;
 
-import org.openqa.selenium.firefox.FirefoxDriver;
-
 public class DriverManagerFactory {
     public static DriverManager getDriverManager(String browser) throws Exception {
         DriverManager driverManager;
 
         switch (browser) {
-            case "Vhrome": {
+            case "Chrome": {
                 driverManager = new ChromeDriverManager();
-            }
-            break;
+            }break;
             case "Firefox": {
                 driverManager = new FirefoxDriverManager();
-            }
-            break;
+            }break;
             default:
-                throw new Exception("Browser" + browser + " not supported");
+                throw new Exception("browser" + browser + " not supported");
         }
         return driverManager;
     }
