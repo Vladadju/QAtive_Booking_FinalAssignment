@@ -48,7 +48,7 @@ public class BookingTest {
     @Test
     public void bookingDestination() throws IOException {
         BookingHomePage bookingHomePage = new BookingHomePage(driver, wait);
-        bookingHomePage.fillUpAccommodationForm("Srpski", "Kopaonik", "31 decembar 2021", "15 januar 2022", "3");
+        bookingHomePage.fillUpAccommodationForm("Srpski", "Kopaonik", "15 januar 2022", "30 januar 2022", "3");
         Assert.assertEquals(driver.findElement(By.cssSelector(".sb-searchbox__row.u-clearfix.-title")).getText(), "Traži");
         bookingHomePage.takeScreenshot("bookingDestination");
     }
@@ -58,7 +58,7 @@ public class BookingTest {
 
     public void bookingNegativeDestination() throws IOException {
         BookingHomePage bookingHomePage = new BookingHomePage(driver, wait);
-        bookingHomePage.fillUpAccommodationForm("Srpski", "", "31 decembar 2021", "15 januar 2022", "3");
+        bookingHomePage.fillUpAccommodationForm("Srpski", "", "15 januar 2022", "30 januar 2022", "3");
         Assert.assertEquals(driver.findElement(By.cssSelector("#destination__error")).getText(), "Greška:\nUnesite destinaciju da biste počeli pretragu.");
         bookingHomePage.takeScreenshot("NegativeDestination");
     }
