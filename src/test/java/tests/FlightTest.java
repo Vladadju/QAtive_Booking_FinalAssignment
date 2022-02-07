@@ -49,7 +49,7 @@ public class FlightTest {
     public void bookingFlight() throws InterruptedException, IOException {
 
         FlightsPage flightsPage = new FlightsPage(driver, wait);
-        flightsPage.fillFlightForm("Rome", "Belgrade","January 10","January 17");
+        flightsPage.fillFlightForm("Rome", "Belgrade","February 20","February 25");
         Thread.sleep(10000);
         Assert.assertEquals(driver.findElement(By.xpath("//div[contains(@id,'stops-title')]"))
                 .getText(),"Stops");
@@ -60,7 +60,7 @@ public class FlightTest {
     public void bookingFlight2() throws InterruptedException, IOException {
 
         FlightsPage flightsPage = new FlightsPage(driver, wait);
-        flightsPage.fillFlightForm("Rome", "","January 10","January 17");
+        flightsPage.fillFlightForm("Rome", "","February 20","February 25");
         Thread.sleep(4000);
         Assert.assertEquals(driver.findElement(By.xpath("//div[contains(@class,'errorContent')]/ul/li/ul/li"))
                 .getText(),"Please enter a 'To' airport.");
