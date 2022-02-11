@@ -24,7 +24,7 @@ public class FlightTest {
     @Parameters({"browser"})
     public void setUp(String browser) {
         if (browser.equals("Chrome")) {
-            System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver96.exe");
+            System.setProperty("webdriver.chrome.driver", "src/main/resources/chromedriver98.exe");
             driver = new ChromeDriver();
             driver.manage().window().maximize();
             driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);

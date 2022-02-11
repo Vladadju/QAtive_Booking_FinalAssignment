@@ -3,7 +3,7 @@
 
 <suite name="Booking" parallel="classes" thread-count="2">
     <parameter name="BROWSER" value="Chrome"/>
-    <parameter name="BROWSER_VERSION" value="97"/>
+    <parameter name="BROWSER_VERSION" value="98"/>
     <parameter name="WAIT_TIME" value="30"/>
 
     <test name="bookingDestination2">
